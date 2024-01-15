@@ -21,9 +21,9 @@
             }
         }
 
-        public bool UseSSL { get; set; } = true;
+        public bool EnableSsl { get; set; } = true;
         public bool UseDefaultCredentials { get; set; } = false;
 
-        public string EmailTemplatesFoulder { get; set; } = "EmailTemplates";
+        public string EmailTemplatesFolder { get; set; } = "EmailTemplates";
     }
 }

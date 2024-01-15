@@ -10,16 +10,16 @@ namespace VoDA.AspNetCore.Services.Email
     {
         private readonly EmailServiceOptions configuration;
 
-        private string EmailTemplatesFoulder => Path.IsPathRooted(configuration.EmailTemplatesFoulder) ?
-            configuration.EmailTemplatesFoulder :
-            Path.Combine(Directory.GetCurrentDirectory(), configuration.EmailTemplatesFoulder);
+        private string EmailTemplatesFouder => Path.IsPathRooted(configuration.EmailTemplatesFolder) ?
+            configuration.EmailTemplatesFolder :
+            Path.Combine(Directory.GetCurrentDirectory(), configuration.EmailTemplatesFolder);
 
         public EmailService(IOptions<EmailServiceOptions> configuration)
         {
             this.configuration = configuration.Value;
-            if (!Directory.Exists(EmailTemplatesFoulder))
+            if (!Directory.Exists(EmailTemplatesFouder))
             {
-                Directory.CreateDirectory(EmailTemplatesFoulder);
+                Directory.CreateDirectory(EmailTemplatesFouder);
             }
         }
 
@@ -38,7 +38,7 @@ namespace VoDA.AspNetCore.Services.Email
 
         public async Task SendEmailUseTemplate(string email, string tepmlateName, Dictionary<string, string>? parameters = null, string? subject = null)
         {
-            string templatePath = Path.Combine(EmailTemplatesFoulder, tepmlateName);
+            string templatePath = Path.Combine(EmailTemplatesFouder, tepmlateName);
             if (!File.Exists(templatePath))
             {
                 throw new FileNotFoundException($"Template {tepmlateName} not found");
@@ -66,7 +66,7 @@ namespace VoDA.AspNetCore.Services.Email
             SmtpClient smtpClient = new SmtpClient();
             smtpClient.Host = configuration.Host;
             smtpClient.Port = configuration.Port;
-            smtpClient.EnableSsl = configuration.UseSSL;
+            smtpClient.EnableSsl = configuration.EnableSsl;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.UseDefaultCredentials = configuration.UseDefaultCredentials;
             smtpClient.Credentials = new NetworkCredential(configuration.Email, configuration.Password);
